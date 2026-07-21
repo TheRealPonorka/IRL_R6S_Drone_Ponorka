@@ -44,8 +44,10 @@ There was a need to lower voltage from the motors HAL sensors. As they are opera
 
 The PCB
 After several iterations of how and where the parts should be placed, I finished with this version of 2-layer PCB. The entire PCB size is 49.50mm x 94.80mm.
+
 Already ordered PCB from manufacturer
 <img width="761" height="724" alt="PCB" src="https://github.com/user-attachments/assets/7d60eb30-bb9c-4ff4-902a-112311d45625" />
+
 3D overview of the final board
 <img width="886" height="838" alt="PCB_3D" src="https://github.com/user-attachments/assets/e2766597-4439-4e22-8c61-6b65dd3e7869" />
 
