@@ -3,7 +3,7 @@ This is a project is inspired by the fictional tool called Recon drone from game
 
 I have built a similar drone, which was based on another github project https://github.com/hemrobotics/recon-drone and I was wondering: "Can this drone be really a fully operational 2 wheeled remote controlled drone?" This github repo should be the answer for this.
 
-# WOK
+# WIP - Work In Progress
 This repo is still in progress. Right now 16/07/2026 the PCB is ready and I am waiting for the supplies so I can build the prototype and start coding everything around it. Mostly this will be a vibe coding, as I am really a beginner in any coding other than PowerShell :D So a lot of AI coding will be involved in this project. Sorry to everyone, I am just an enthusiast gamer in this case and in my professional life a SysAdmin :D
 
 Slowly but there will be updates here to add the details about this project.
