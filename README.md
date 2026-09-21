@@ -2,6 +2,8 @@
 -----DISCLAIMER: As of today, 16/09/2026, below data of the project are a little bit outdated. I will update the project details later as I am currently "fighting" with vibe coding.-----
 
 This is a project is inspired by the fictional tool called Recon drone from game Tom Clancy's Rainbow Six: Siege.
+I have created a fan page on facebook for this project, where I will post some updates while I am working on it or doing some stuffs with it, here:
+https://www.facebook.com/profile.php?id=61594372602997
 
 I have built a similar drone, which was based on another github project https://github.com/hemrobotics/recon-drone and I was wondering: "Can this drone be really a fully operational 2 wheeled remote controlled drone?" This github repo should be the answer for this.
 
