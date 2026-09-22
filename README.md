@@ -87,7 +87,7 @@ IT IS NOT PERFECTLY ACCURATE.
 There were some challenges which I had to solve during initial test prints so it could be printed easier on 3D printer and assemble at the end.
 From the front part it looks almost identical to one in the game, however the back I had to change a bit.
 The top part on the back is stripped a bit, which I added for the bottom. The reason is to assemble easier the insides: USB-C charging port, Wi-Fi antenna and ON/OFF switch together with the electronics boards inside.
-<img width="886" height="838" alt="PCB_3D" src="DroneBodyModel/TopAndBot.png" />
+<img width="886" height="838" alt="bodyTopAndBot" src="DroneBodyModel/TopAndBot.png" />
 The motors I used are the following: https://www.aliexpress.com/item/1005012449655687.html with these specifications selected: "1 to 30, DC 6V A06 Type" and they are screwed in with really small 1.6mm screws
 I have created an overengineered stand for this, you can see it on the pictures and the model.
 
@@ -97,5 +97,5 @@ Anyway, after many attempts, I have finally reached the testing state, where I c
 
 # Next steps
 Currently I am waiting for my final PCB (this is my 4th attempt, so my 4th order. I know I f-ed up. I did not start with breadboard testing before I ordered previous PCB attemtps) I have ordered, based on the gerber file you can find in "SchematicsAndPCB"
-<img width="886" height="838" alt="PCB_3D" src="TestingBreadboard.jpg" />
+<img alt="Breadboard" src="TestingBreadboard.jpg" />
 Hopefully, once it will arrive and solder all the components (Bill of materials, a.k.a. BOM you can find in "SchematicsAndPCB") it will finally work. Previous (3rd) version was already working, but I connected one motor signal to a PIN, which is used for Wi-Fi, so I had to redo the pinouts a bit.
