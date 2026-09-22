@@ -87,6 +87,7 @@ IT IS NOT PERFECTLY ACCURATE.
 There were some challenges which I had to solve during initial test prints so it could be printed easier on 3D printer and assemble at the end.
 From the front part it looks almost identical to one in the game, however the back I had to change a bit.
 The top part on the back is stripped a bit, which I added for the bottom. The reason is to assemble easier the insides: USB-C charging port, Wi-Fi antenna and ON/OFF switch together with the electronics boards inside.
+<img width="886" height="838" alt="PCB_3D" src="DroneBodyModel/TopAndBot.png" />
 The motors I used are the following: https://www.aliexpress.com/item/1005012449655687.html with these specifications selected: "1 to 30, DC 6V A06 Type" and they are screwed in with really small 1.6mm screws
 I have created an overengineered stand for this, you can see it on the pictures and the model.
 
