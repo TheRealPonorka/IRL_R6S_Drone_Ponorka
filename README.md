@@ -44,7 +44,7 @@ The balancing is solved by IMU module MCI270, slotted on the main board.
 Now here comes the power consumption part. In my previous attempt to build this drone I was happy to handle everything with only one 18650 LiPo battery cell and I wanted to keep it that way. I have found a 18650 battery cell shield, which can handle massive current delivery at 5V (up to 3A). With this solution I can easily power the ESP32, the LED strip, the motor drivers and the HAL sensors. It might not be able to run for tens of hours, but this solution should be sufficient to handle power delivery for several hours.
 Anyway, the charging is solved via USB-C connector, which can charge the batter in short time. And if you have a spare 18650 battery cell, you can easily replace it whenever you need inside chasis.
 There was a need to lower voltage from the motors HAL sensors. As they are operating on 5V from the battery shield, I needed to add also 4-channel bi-polar level shifter, so we don't fry our MCU with 5V input :)
-<img width="1710" height="973" alt="Schematics" src="https://github.com/user-attachments/assets/c875a841-196e-4694-a851-3f170e79b0f7" />
+<img width="1710" height="973" alt="Schematics" src="SchematicsAndPCB/Schematics.png" />
 
 The PCB
 After several iterations of how and where the parts should be placed, I finished with this version of 2-layer PCB. The entire PCB size is 49.50mm x 94.80mm.
