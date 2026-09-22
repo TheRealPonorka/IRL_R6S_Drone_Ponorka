@@ -1,0 +1,17 @@
+Reference Designators;Quantity;Description;Package;Value;Manufacturer;Manufacturer Part Number;Vendor;Vendor Part Number;Top/Bottom
+U1;1;IMU;1line 7-pin daughter board;BMI270;https://www.aliexpress.com/item/1005012475229129.htm;;;;Top
+C1;1;Capacitor Polarised - Generic;CAPAE1030X1050N;100uF;;;;;Top
+C2;1;Capacitor - Generic;CAPC4532X135;2.2uF;;;;;Top
+C3;1;Capacitor - Generic;CAPC4532X135;0.01uF;;;;;Top
+U2;1;Motor driver;HTSSOP16;DRV8833PWP;Texas Instruments;;;;Top
+LED_STRIP;1;JST XH Connector 2 Pin;JST-XH-03-PACKAGE-LONG-PAD;;;;;;Top
+LED_W;1;JST XH Connector 2 Pin;JST-XH-02-PACKAGE-LONG-PAD;;;;;;Top
+POW_IN;1;JST XH Connector 2 Pin;JST-XH-02-PACKAGE-LONG-PAD;;;;;;Top
+M1_RIGHT, M2_LEFT;2;JST XH Connector 6 Pin;JST-XH-06-PACKAGE-LONG-PAD;;;;;;Top
+U3;1;MCU;2 line 40-pin devkit board;GOOUUU-ESP32-S3-CAM-DEVKITC;https://www.aliexpress.com/item/1005008568072063.html;;;;Top
+Q1;1;NPN Transistor - Popular parts;SOT95P237X112-3N;MMBT3904;;MMBT3904-7-F;;;Top
+Q5, Q6, Q7, Q8;4;N-Channel MOSFET - Popular parts;SOT23;BSS138;;;;;Bottom
+R1, R2, R3, R4, R5, R6, R7, R8;8;Resistor Fixed - Generic;RESC3224X71;10k;;;;;Bottom
+R9;1;Resistor Fixed - Generic;RESC3224X71;62R;;;;;Top
+R10;1;Resistor Fixed - Generic;RESC3224X71;330R;;;;;Top
+R12;1;Resistor Fixed - Generic;RESC3224X71;1k;;;;;Top
