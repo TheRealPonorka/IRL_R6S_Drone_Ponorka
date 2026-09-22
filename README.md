@@ -1,5 +1,9 @@
 # Tom Clancy's Rainbow Six: Siege - Recon Drone by Ponorka
+-----DISCLAIMER: As of today, 16/09/2026, below data of the project are a little bit outdated. I will update the project details later as I am currently "fighting" with vibe coding.-----
+
 This is a project is inspired by the fictional tool called Recon drone from game Tom Clancy's Rainbow Six: Siege.
+I have created a fan page on facebook for this project, where I will post some updates while I am working on it or doing some stuffs with it, here:
+https://www.facebook.com/profile.php?id=61594372602997
 
 I have built a similar drone, which was based on another github project https://github.com/hemrobotics/recon-drone and I was wondering: "Can this drone be really a fully operational 2 wheeled remote controlled drone?" This github repo should be the answer for this.
 
@@ -26,17 +30,17 @@ Took me some time to get back to this knowledge, as I did not work on any electr
 As I wanted to add all the possible features what a recon drone have in R6S, I needed think over, what I want to achieve:
 1. Self-balancing 2 wheeled robot
 2. Camera for reconnaissance
-3. Microphone to hear what is happening around (reconnaissance)
+3. LED Spotlight to light up darker places
 4. Addressable RGB LED strip with 6 LEDs to replicate the visuals of the drone
 
 So, how to achieve that?
-First we need a microcontroller (MCU) robust enough to handle all the stuffs. After reviewing all the possibilities and cost effectiveness, I decided to go with ESP32-S3 CAM DEVKITC.
+First we need a microcontroller (MCU) robust enough to handle all the stuffs. After reviewing all the possibilities and cost effectiveness, I decided to go with ESP32-S3 CAM DEVKITC especially from GOOUUU.
 For now this is sufficient for everything we need (later on I might rethink the schematics and PCB layout with fully self-built PCB using only the MCU and not the devkit).
 For camera module I decided to go with OV3660, as this module has good enough resolution, while keeping the FPS high enough to have a smooth experience.
-I have decided to add also an omnidirectional microphone module INMP441 to hear the surroundings.
-The motors I have selected are N20 small geared motors operating on 6V with gear reduction 1:30 and built-in HAL encoder. This gives the drone enough torque and power to balance, while keeping the voltage on lower side (more on it later)
+Early build I planned with omnidirectional microphone module as well, however after further testing this came out as unusable for real time audio stream so I left this idea out of the final build.
+The motors I have selected are N20 small geared motors operating on 6V with gear reduction 1:30 and built-in HAL encoder. This gives the drone possibly enough torque and power to balance, while keeping the voltage on lower side (more on it later)
 The motor driver is a DRV8833, there is not much to talk about it, it is a sweet spot for this build. Low cost, low power.
-The balancing is solved by GY-521 board with MPU6050, slotted on the main board.
+The balancing is solved by IMU module MCI270, slotted on the main board.
 Now here comes the power consumption part. In my previous attempt to build this drone I was happy to handle everything with only one 18650 LiPo battery cell and I wanted to keep it that way. I have found a 18650 battery cell shield, which can handle massive current delivery at 5V (up to 3A). With this solution I can easily power the ESP32, the LED strip, the motor drivers and the HAL sensors. It might not be able to run for tens of hours, but this solution should be sufficient to handle power delivery for several hours.
 Anyway, the charging is solved via USB-C connector, which can charge the batter in short time. And if you have a spare 18650 battery cell, you can easily replace it whenever you need inside chasis.
 There was a need to lower voltage from the motors HAL sensors. As they are operating on 5V from the battery shield, I needed to add also 4-channel bi-polar level shifter, so we don't fry our MCU with 5V input :)
