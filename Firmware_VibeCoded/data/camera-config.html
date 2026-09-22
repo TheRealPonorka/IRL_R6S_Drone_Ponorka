@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R6 Drone - Camera Configuration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #FF8C00;
+            border-radius: 10px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #FF8C00;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+        }
+
+        .config-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 140, 0, 0.05);
+        }
+
+        .section-title {
+            color: #FFB347;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .setting-label {
+            font-weight: 500;
+            color: #ffffff;
+            flex: 1;
+        }
+
+        .setting-description {
+            font-size: 12px;
+            color: #cccccc;
+            margin-top: 2px;
+        }
+
+        .setting-control {
+            flex: 0 0 200px;
+            text-align: right;
+        }
+
+        select, input[type="range"], input[type="number"], button {
+            background: rgba(255, 140, 0, 0.1);
+            border: 1px solid #FF8C00;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        select {
+            width: 180px;
+        }
+
+        input[type="range"] {
+            width: 150px;
+            margin-right: 10px;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            text-align: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #FF8C00, #FFB347);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            padding: 10px 20px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #FFB347, #FFA500);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .range-display {
+            display: inline-block;
+            min-width: 40px;
+            text-align: center;
+            color: #FF8C00;
+            font-weight: bold;
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .preset-btn {
+            padding: 8px 15px;
+            font-size: 12px;
+            background: rgba(255, 140, 0, 0.2);
+        }
+
+        .status-message {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+
+        .status-success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .status-error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+
+        .live-preview {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border: 2px solid #FF8C00;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .live-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        @media (max-width: 600px) {
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .setting-control {
+                flex: 1;
+                text-align: left;
+                width: 100%;
+            }
+            
+            select, input[type="range"] {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 Camera Configuration</h1>
+        
+        <div id="status-message" class="status-message"></div>
+        
+        <!-- Live Preview -->
+        <div class="config-section">
+            <div class="section-title">Live Preview</div>
+            <div class="live-preview" id="live-preview">
+                <img id="preview-image" src="/capture" alt="Camera Preview" style="display: none;">
+                <span id="preview-text">Loading preview...</span>
+            </div>
+            <button onclick="refreshPreview()">🔄 Refresh Preview</button>
+        </div>
+
+        <!-- Resolution Settings -->
+        <div class="config-section">
+            <div class="section-title">Resolution & Quality</div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Frame Size</div>
+                    <div class="setting-description">Camera resolution setting</div>
+                </div>
+                <div class="setting-control">
+                    <select id="framesize" onchange="updateSetting('framesize', this.value)">
+                        <option value="0">96x96 (QQVGA)</option>
+                        <option value="1">160x120 (QQVGA2)</option>
+                        <option value="2">176x144 (QCIF)</option>
+                        <option value="3">240x176 (HQVGA)</option>
+                        <option value="4">240x240 (240x240)</option>
+                        <option value="5">320x240 (QVGA)</option>
+                        <option value="6">400x296 (CIF)</option>
+                        <option value="7">480x320 (HVGA)</option>
+                        <option value="8">640x480 (VGA)</option>
+                        <option value="9" selected>800x600 (SVGA)</option>
+                        <option value="10">1024x768 (XGA)</option>
+                        <option value="11">1280x1024 (SXGA)</option>
+                        <option value="12">1600x1200 (UXGA)</option>
+                        <option value="13">1280x720 (HD)</option>
+                        <option value="14">1920x1080 (FHD)</option>
+                        <option value="15">2048x1536 (P_HD)</option>
+                        <option value="16">2560x1600 (P_FHD)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">JPEG Quality</div>
+                    <div class="setting-description">Lower = better quality, higher file size</div>
+                </div>
+                <div class="setting-control">
+                    <input type="range" id="quality" min="4" max="63" value="10" 
+                           oninput="updateRangeDisplay('quality', this.value); updateSetting('quality', this.value)">
+                    <span class="range-display" id="quality-display">10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Settings -->
+        <div class="config-section">
+            <div class="section-title">Image Enhancement</div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Brightness</div>
+                    <div class="setting-description">-2 to +2 range</div>
+                </div>
+                <div class="setting-control">
+                    <input type="range" id="brightness" min="-2" max="2" value="0" 
+                           oninput="updateRangeDisplay('brightness', this.value); updateSetting('brightness', this.value)">
+                    <span class="range-display" id="brightness-display">0</span>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Contrast</div>
+                    <div class="setting-description">-2 to +2 range</div>
+                </div>
+                <div class="setting-control">
+                    <input type="range" id="contrast" min="-2" max="2" value="0" 
+                           oninput="updateRangeDisplay('contrast', this.value); updateSetting('contrast', this.value)">
+                    <span class="range-display" id="contrast-display">0</span>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Saturation</div>
+                    <div class="setting-description">-2 to +2 range</div>
+                </div>
+                <div class="setting-control">
+                    <input type="range" id="saturation" min="-2" max="2" value="0" 
+                           oninput="updateRangeDisplay('saturation', this.value); updateSetting('saturation', this.value)">
+                    <span class="range-display" id="saturation-display">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Camera Features -->
+        <div class="config-section">
+            <div class="section-title">Camera Features</div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">White Balance Mode</div>
+                    <div class="setting-description">Auto, daylight, indoor, etc.</div>
+                </div>
+                <div class="setting-control">
+                    <select id="wb_mode" onchange="updateSetting('wb_mode', this.value)">
+                        <option value="0" selected>Auto</option>
+                        <option value="1">Sunny</option>
+                        <option value="2">Cloudy</option>
+                        <option value="3">Office</option>
+                        <option value="4">Home</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Special Effect</div>
+                    <div class="setting-description">Image filter effects</div>
+                </div>
+                <div class="setting-control">
+                    <select id="special_effect" onchange="updateSetting('special_effect', this.value)">
+                        <option value="0" selected>No Effect</option>
+                        <option value="1">Negative</option>
+                        <option value="2">Grayscale</option>
+                        <option value="3">Red Tint</option>
+                        <option value="4">Green Tint</option>
+                        <option value="5">Blue Tint</option>
+                        <option value="6">Sepia</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Horizontal Mirror</div>
+                    <div class="setting-description">Flip image horizontally</div>
+                </div>
+                <div class="setting-control">
+                    <select id="hmirror" onchange="updateSetting('hmirror', this.value)">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Vertical Flip</div>
+                    <div class="setting-description">Flip image vertically</div>
+                </div>
+                <div class="setting-control">
+                    <select id="vflip" onchange="updateSetting('vflip', this.value)">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Presets -->
+        <div class="config-section">
+            <div class="section-title">Quick Presets</div>
+            <div class="preset-buttons">
+                <button class="preset-btn" onclick="applyPreset('recon')">🎯 Recon Mode</button>
+                <button class="preset-btn" onclick="applyPreset('nightvision')">🌙 Night Vision</button>
+                <button class="preset-btn" onclick="applyPreset('highquality')">📸 High Quality</button>
+                <button class="preset-btn" onclick="applyPreset('performance')">⚡ Performance</button>
+                <button class="preset-btn" onclick="applyPreset('default')">🔄 Default</button>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+            <button onclick="saveSettings()">💾 Save Settings</button>
+            <button onclick="resetToDefaults()">🔄 Reset to Defaults</button>
+            <button onclick="window.close()">❌ Close</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSettings = {};
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCurrentSettings();
+            startPreviewRefresh();
+            updateAllDisplays();
+        });
+
+        // Load current camera settings
+        async function loadCurrentSettings() {
+            try {
+                const response = await fetch('/camera-settings');
+                if (response.ok) {
+                    currentSettings = await response.json();
+                    applySettingsToUI(currentSettings);
+                } else {
+                    showStatus('Failed to load current settings', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                showStatus('Connection error while loading settings', 'error');
+            }
+        }
+
+        // Apply settings to UI controls
+        function applySettingsToUI(settings) {
+            Object.keys(settings).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = settings[key];
+                    updateRangeDisplay(key, settings[key]);
+                }
+            });
+        }
+
+        // Update setting on drone
+        async function updateSetting(setting, value) {
+            try {
+                const response = await fetch('/camera-control', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        var: setting,
+                        val: parseInt(value)
+                    })
+                });
+
+                if (response.ok) {
+                    currentSettings[setting] = value;
+                    showStatus(`${setting} updated to ${value}`, 'success');
+                    
+                    // Refresh preview after a short delay
+                    setTimeout(refreshPreview, 500);
+                } else {
+                    showStatus(`Failed to update ${setting}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error updating setting:', error);
+                showStatus('Connection error', 'error');
+            }
+        }
+
+        // Update range display
+        function updateRangeDisplay(settingName, value) {
+            const display = document.getElementById(settingName + '-display');
+            if (display) {
+                display.textContent = value;
+            }
+        }
+
+        // Update all range displays
+        function updateAllDisplays() {
+            ['quality', 'brightness', 'contrast', 'saturation'].forEach(setting => {
+                const element = document.getElementById(setting);
+                if (element) {
+                    updateRangeDisplay(setting, element.value);
+                }
+            });
+        }
+
+        // Apply preset configurations
+        function applyPreset(presetName) {
+            const presets = {
+                recon: {
+                    framesize: '13', // 1280x720 HD
+                    quality: '8',
+                    brightness: '0',
+                    contrast: '1',
+                    saturation: '0',
+                    wb_mode: '0',
+                    special_effect: '0',
+                    hmirror: '0',
+                    vflip: '0'
+                },
+                nightvision: {
+                    framesize: '9', // 800x600 SVGA
+                    quality: '12',
+                    brightness: '1',
+                    contrast: '2',
+                    saturation: '-1',
+                    wb_mode: '0',
+                    special_effect: '2', // Grayscale
+                    hmirror: '0',
+                    vflip: '0'
+                },
+                highquality: {
+                    framesize: '14', // 1920x1080 FHD
+                    quality: '4',
+                    brightness: '0',
+                    contrast: '0',
+                    saturation: '1',
+                    wb_mode: '0',
+                    special_effect: '0',
+                    hmirror: '0',
+                    vflip: '0'
+                },
+                performance: {
+                    framesize: '8', // 640x480 VGA
+                    quality: '20',
+                    brightness: '0',
+                    contrast: '0',
+                    saturation: '0',
+                    wb_mode: '0',
+                    special_effect: '0',
+                    hmirror: '0',
+                    vflip: '0'
+                },
+                default: {
+                    framesize: '13', // 1280x720 HD
+                    quality: '10',
+                    brightness: '0',
+                    contrast: '0',
+                    saturation: '0',
+                    wb_mode: '0',
+                    special_effect: '0',
+                    hmirror: '0',
+                    vflip: '0'
+                }
+            };
+
+            if (presets[presetName]) {
+                const preset = presets[presetName];
+                applySettingsToUI(preset);
+                
+                // Apply each setting
+                Object.keys(preset).forEach(async (key) => {
+                    await updateSetting(key, preset[key]);
+                });
+                
+                showStatus(`${presetName.charAt(0).toUpperCase() + presetName.slice(1)} preset applied`, 'success');
+            }
+        }
+
+        // Save settings to EEPROM/flash
+        async function saveSettings() {
+            try {
+                const response = await fetch('/camera-save', {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    showStatus('Settings saved successfully!', 'success');
+                } else {
+                    showStatus('Failed to save settings', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                showStatus('Connection error while saving', 'error');
+            }
+        }
+
+        // Reset to default settings
+        function resetToDefaults() {
+            if (confirm('Reset all camera settings to default values?')) {
+                applyPreset('default');
+            }
+        }
+
+        // Refresh preview image
+        function refreshPreview() {
+            const previewImg = document.getElementById('preview-image');
+            const previewText = document.getElementById('preview-text');
+            
+            previewText.textContent = 'Refreshing...';
+            previewImg.style.display = 'none';
+            
+            // Add timestamp to force refresh
+            const timestamp = new Date().getTime();
+            previewImg.src = `/capture?t=${timestamp}`;
+            
+            previewImg.onload = function() {
+                previewText.style.display = 'none';
+                previewImg.style.display = 'block';
+            };
+            
+            previewImg.onerror = function() {
+                previewText.textContent = 'Preview unavailable';
+                previewImg.style.display = 'none';
+            };
+        }
+
+        // Auto-refresh preview
+        function startPreviewRefresh() {
+            // Refresh preview every 5 seconds
+            setInterval(refreshPreview, 5000);
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            const statusElement = document.getElementById('status-message');
+            statusElement.textContent = message;
+            statusElement.className = `status-message status-${type}`;
+            statusElement.style.display = 'block';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 3000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                saveSettings();
+            }
+            if (e.key === 'F5') {
+                e.preventDefault();
+                refreshPreview();
+            }
+        });
+    </script>
+</body>
+</html>
